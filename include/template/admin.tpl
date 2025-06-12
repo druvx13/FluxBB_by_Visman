@@ -7,6 +7,19 @@
 </head>
 
 <body>
+<div class="container mt-3">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="index.php"><?php echo defined('PUN_CONFIG_LOADED') ? pun_htmlspecialchars($pun_config['o_board_title']) : 'ForumTitle'; ?> - Admin</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbarCollapseAdmin" aria-controls="mainNavbarCollapseAdmin" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNavbarCollapseAdmin">
+            <pun_bootstrap_nav_items> <!-- This uses the same placeholder as main.tpl -->
+        </div>
+    </div>
+</nav>
 
 <div id="punadmin" class="pun">
 <div class="top-box"></div>
@@ -18,7 +31,7 @@
 			<pun_title>
 			<pun_desc>
 		</div>
-		<pun_navlinks>
+		<!-- <pun_navlinks> --> <!-- Original navlinks commented out -->
 		<pun_status>
 	</div>
 </div>
@@ -26,14 +39,22 @@
 <pun_announcement>
 
 <div id="brdmain">
-<pun_main>
+    <div class="row">
+        <div class="col-12">
+            <pun_main>
+        </div>
+    </div>
 </div>
 
-<pun_footer>
-
+<div class="text-center p-3 mt-4 border-top">
+    <pun_footer>
 </div>
+
+</div> <!-- closing punwrap -->
 <div class="end-box"></div>
-</div>
+</div> <!-- closing punadmin -->
+
+</div> <!-- closing container -->
 <!-- forum_javascript -->
 </body>
 </html>

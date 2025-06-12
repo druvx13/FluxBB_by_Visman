@@ -968,69 +968,82 @@ function paginate(int $num_pages, int $cur_page, string $link)
 {
 	global $lang_common;
 
-	$pages = array();
+	$items = array();
 
 	if ($num_pages <= 1)
 	{
-		$pages = $cur_page < 0 ? [] : ['<strong class="item1">1</strong>'];
+		if ($cur_page < 0) {
+			return ''; // No pagination needed for -1 case if only one page
+		}
+		// It's a bit weird to show pagination for a single page, but if we must:
+		$items[] = '<li class="page-item active" aria-current="page"><span class="page-link">1</span></li>';
 	}
-	// If $cur_page == -1, we link to all pages (used in viewforum.php)
+	// If $cur_page == -1, we link to all pages (used in viewforum.php for "all topics" type links)
+	// This case might not make sense for Bootstrap pagination directly, often handled differently.
+	// For now, let's adapt it to show last few pages as the original did, but styled.
 	else if ($cur_page == -1)
 	{
-		if ($num_pages > 999)
-			$d = 2;
-		else if ($num_pages > 99)
-			$d = 3;
-		else
-			$d = min(4, $num_pages - 2);
+		// This case is tricky for standard pagination. The original showed last few pages.
+		// A full list of pages is usually too long. We'll show a simplified version or first/last and ellipsis.
+		// Let's show first, ellipsis, and last few pages similar to original logic if many pages.
+		if ($num_pages > 999) $d = 2;
+		else if ($num_pages > 99) $d = 3;
+		else $d = min(4, $num_pages > 2 ? $num_pages - 2 : $num_pages);
 
-		$current = $num_pages - $d;
+		if ($num_pages > $d +1 ) { // Only show if there's a gap
+			$items[] = '<li class="page-item"><a class="page-link" href="'.$link.'&amp;p=1">1</a></li>';
+			if ($num_pages > $d + 2) { // Avoid double ellipsis if only one page is missing
+				$items[] = '<li class="page-item disabled"><span class="page-link">...</span></li>';
+			}
+		}
 
-		if ($current > 2)
-			$pages[] = '<span class="spacer">'.$lang_common['Spacer'].'</span>';
+		$start_page = max(1, $num_pages - $d +1);
+		if ($num_pages > $d && $start_page == 1) $start_page = 2; // Adjust if first page is already shown
 
-		for ($current; $current <= $num_pages; ++$current)
-			$pages[] = '<a href="'.$link.'&amp;p='.$current.'">'.forum_number_format($current).'</a>';
+		for ($current = $start_page; $current <= $num_pages; ++$current) {
+			$items[] = '<li class="page-item"><a class="page-link" href="'.$link.'&amp;p='.$current.'">'.forum_number_format($current).'</a></li>';
+		}
 	}
 	else
 	{
-		// Add a previous page link
-		if ($num_pages > 1 && $cur_page > 1)
-			$pages[] = '<a rel="prev"'.(empty($pages) ? ' class="item1"' : '').' href="'.$link.($cur_page == 2 ? '' : '&amp;p='.($cur_page - 1)).'">'.$lang_common['Previous'].'</a>';
+		// Previous page link
+		if ($cur_page > 1)
+			$items[] = '<li class="page-item"><a class="page-link" rel="prev" href="'.$link.($cur_page == 2 ? '' : '&amp;p='.($cur_page - 1)).'">'.$lang_common['Previous'].'</a></li>';
+		else
+			$items[] = '<li class="page-item disabled"><span class="page-link">'.$lang_common['Previous'].'</span></li>';
 
+		// Page numbers
 		if ($cur_page > 3)
 		{
-			$pages[] = '<a'.(empty($pages) ? ' class="item1"' : '').' href="'.$link.'">1</a>';
-
-			if ($cur_page > 5)
-				$pages[] = '<span class="spacer">'.$lang_common['Spacer'].'</span>';
+			$items[] = '<li class="page-item"><a class="page-link" href="'.$link.'">1</a></li>';
+			if ($cur_page > 4) // Show spacer if not on page 4 (1 ... 2 3 4)
+				$items[] = '<li class="page-item disabled"><span class="page-link">...</span></li>';
 		}
 
-		// Don't ask me how the following works. It just does, OK? :-)
-		for ($current = $cur_page == 5 ? $cur_page - 3 : $cur_page - 2, $stop = $cur_page + 4 == $num_pages ? $cur_page + 4 : $cur_page + 3; $current < $stop; ++$current)
+		for ($current = max(1, $cur_page - 2); $current <= min($num_pages, $cur_page + 2); ++$current)
 		{
-			if ($current < 1 || $current > $num_pages)
-				continue;
-			else if ($current != $cur_page)
-				$pages[] = '<a'.(empty($pages) ? ' class="item1"' : '').' href="'.$link.($current == 1 ? '' : '&amp;p='.$current).'">'.forum_number_format($current).'</a>';
+			if ($current == $cur_page)
+				$items[] = '<li class="page-item active" aria-current="page"><span class="page-link">'.forum_number_format($current).'</span></li>';
 			else
-				$pages[] = '<strong'.(empty($pages) ? ' class="item1"' : '').'>'.forum_number_format($current).'</strong>';
+				$items[] = '<li class="page-item"><a class="page-link" href="'.$link.($current == 1 ? '' : '&amp;p='.$current).'">'.forum_number_format($current).'</a></li>';
 		}
 
-		if ($cur_page <= $num_pages - 3)
+		if ($cur_page < $num_pages - 2)
 		{
-			if ($cur_page != ($num_pages-3) && $cur_page != ($num_pages-4))
-				$pages[] = '<span class="spacer">'.$lang_common['Spacer'].'</span>';
-
-			$pages[] = '<a'.(empty($pages) ? ' class="item1"' : '').' href="'.$link.'&amp;p='.$num_pages.'">'.forum_number_format($num_pages).'</a>';
+			if ($cur_page < $num_pages - 3) // Show spacer if not on page num_pages-3 ( ... num-2 num-1 num)
+				$items[] = '<li class="page-item disabled"><span class="page-link">...</span></li>';
+			$items[] = '<li class="page-item"><a class="page-link" href="'.$link.'&amp;p='.$num_pages.'">'.forum_number_format($num_pages).'</a></li>';
 		}
 
-		// Add a next page link
-		if ($num_pages > 1 && $cur_page < $num_pages)
-			$pages[] = '<a rel="next"'.(empty($pages) ? ' class="item1"' : '').' href="'.$link.'&amp;p='.($cur_page +1).'">'.$lang_common['Next'].'</a>';
+		// Next page link
+		if ($cur_page < $num_pages)
+			$items[] = '<li class="page-item"><a class="page-link" rel="next" href="'.$link.'&amp;p='.($cur_page + 1).'">'.$lang_common['Next'].'</a></li>';
+		else
+			$items[] = '<li class="page-item disabled"><span class="page-link">'.$lang_common['Next'].'</span></li>';
 	}
 
-	return implode(' ', $pages);
+	if (empty($items)) return '';
+	return '<ul class="pagination">'.implode('', $items).'</ul>';
 }
 
 

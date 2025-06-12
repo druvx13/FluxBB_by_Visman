@@ -65,7 +65,7 @@ switch ($cur_forum['sort_by'])
 
 // Can we or can we not post new topics?
 if (($cur_forum['post_topics'] == '' && $pun_user['g_post_topics'] == '1') || $cur_forum['post_topics'] == '1' || $is_admmod)
-	$post_link = "\t\t\t".'<p class="postlink conr"><a href="post.php?fid='.$id.'">'.$lang_forum['Post topic'].'</a></p>'."\n";
+	$post_link = "\t\t\t".'<div class="postlink conr"><a class="btn btn-primary" href="post.php?fid='.$id.'">'.$lang_forum['Post topic'].'</a></div>'."\n";
 else
 	$post_link = '';
 
@@ -106,12 +106,12 @@ if (!$pun_user['is_guest'])
 	if ($pun_config['o_forum_subscriptions'] == '1')
 	{
 		if ($cur_forum['is_subscribed'])
-			$forum_actions[] = '<span>'.$lang_forum['Is subscribed'].' - </span><a id="unsubscribe" href="misc.php?action=unsubscribe&amp;fid='.$id.'&amp;csrf_hash='.csrf_hash('misc.php').'">'.$lang_forum['Unsubscribe'].'</a>';
+			$forum_actions[] = '<span>'.$lang_forum['Is subscribed'].' - </span><a id="unsubscribe" class="btn btn-outline-secondary btn-sm" href="misc.php?action=unsubscribe&amp;fid='.$id.'&amp;csrf_hash='.csrf_hash('misc.php').'">'.$lang_forum['Unsubscribe'].'</a>';
 		else
-			$forum_actions[] = '<a href="misc.php?action=subscribe&amp;fid='.$id.'&amp;csrf_hash='.csrf_hash('misc.php').'">'.$lang_forum['Subscribe'].'</a>';
+			$forum_actions[] = '<a class="btn btn-outline-secondary btn-sm" href="misc.php?action=subscribe&amp;fid='.$id.'&amp;csrf_hash='.csrf_hash('misc.php').'">'.$lang_forum['Subscribe'].'</a>';
 	}
 
-	$forum_actions[] = '<a href="misc.php?action=markforumread&amp;fid='.$id.'&amp;csrf_hash='.csrf_hash().'">'.$lang_common['Mark forum read'].'</a>';
+	$forum_actions[] = '<a class="btn btn-outline-secondary btn-sm" href="misc.php?action=markforumread&amp;fid='.$id.'&amp;csrf_hash='.csrf_hash().'">'.$lang_common['Mark forum read'].'</a>';
 }
 
 $page_title = [];
@@ -170,7 +170,8 @@ if ($p == 1 && !empty($sf_array_tree[$id]))
 	<h2><span><?php echo pun_htmlspecialchars($cur_forum['forum_name']) ?></span></h2>
 	<div class="box">
 		<div class="inbox">
-			<table>
+			<div class="table-responsive">
+			<table class="table table-striped table-hover">
 			<thead>
 				<tr>
 					<th class="tcl" scope="col"><?php echo $lang_common['Topic'] ?></th>
@@ -315,6 +316,7 @@ else
 ?>
 			</tbody>
 			</table>
+			</div>
 		</div>
 	</div>
 </div>

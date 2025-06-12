@@ -180,6 +180,21 @@ ob_end_clean();
 // Close the db connection (and free up any result data)
 $db->close();
 
+// Load Bootstrap JS for BootstrapTheme
+if (isset($pun_user['style']) && $pun_user['style'] == 'BootstrapTheme') {
+    // We need to inject this script tag into tpl_main before other scripts if possible,
+    // or ensure it's loaded correctly.
+    // A simple approach is to append it to where other JS would be loaded or directly into tpl_main.
+    // Let's try to add it before the forum_javascript placeholder is replaced.
+    $bootstrap_js_script = '<script src="js/bootstrap.bundle.min.js"></script>';
+    if (strpos($tpl_main, '<!-- forum_javascript -->') !== false) {
+        $tpl_main = str_replace('<!-- forum_javascript -->', $bootstrap_js_script."\n".'<!-- forum_javascript -->', $tpl_main);
+    } else {
+        // Fallback if placeholder not found, append before </body>
+        $tpl_main = str_replace('</body>', $bootstrap_js_script."\n".'</body>', $tpl_main);
+    }
+}
+
 if (isset($page_js))
 	$tpl_main = str_replace('<!-- forum_javascript -->', generation_js($page_js), $tpl_main);
 
