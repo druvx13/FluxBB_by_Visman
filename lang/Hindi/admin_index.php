@@ -1,0 +1,52 @@
+<?php
+
+// Language definitions used in admin_index.php
+$lang_admin_index = array(
+
+'fopen disabled message'			=>	'अपग्रेड की जाँच असंभव है क्योंकि इस सिस्टम पर \'allow_url_fopen\' अक्षम है।',
+'Upgrade check failed message'		=>	'अज्ञात कारणों से अपग्रेड की जाँच विफल रही।',
+'Running latest version message'	=>	'आप FluxBB का नवीनतम संस्करण चला रहे हैं।',
+'New version available message'		=>	'FluxBB का एक नया संस्करण जारी किया गया है। आप %s से नवीनतम संस्करण डाउनलोड कर सकते हैं।',
+'Deleted install.php redirect'		=>	'फ़ाइल सफलतापूर्वक हटा दी गई। पुनर्निर्देशित किया जा रहा है...',
+'Delete install.php failed'			=>	'install.php हटाई नहीं जा सकी। कृपया इसे मैन्युअल रूप से हटाएँ।',
+'Not available'						=>	'उपलब्ध नहीं',
+'Forum admin head'					=>	'फ़ोरम प्रशासन',
+'NA'								=>	'लागू नहीं',
+'Welcome to admin'					=>	'FluxBB प्रशासन नियंत्रण पैनल में आपका स्वागत है। यहाँ से आप बोर्ड के महत्वपूर्ण पहलुओं को नियंत्रित कर सकते हैं। यदि आप प्रशासक या मॉडरेटर हैं, तो आप:',
+'Welcome 1'							=>	'श्रेणियों और फ़ोरम की व्यवस्था कर सकते हैं।',
+'Welcome 2'							=>	'फ़ोरम-वाइड विकल्पों और प्राथमिकताओं को सेट कर सकते हैं।',
+'Welcome 3'							=>	'उपयोगकर्ताओं और अतिथियों के लिए अनुमतियों को नियंत्रित कर सकते हैं।',
+'Welcome 4'							=>	'उपयोगकर्ताओं के लिए आईपी सांख्यिकी देख सकते हैं।',
+'Welcome 5'							=>	'उपयोगकर्ताओं को प्रतिबंधित कर सकते हैं।',
+'Welcome 6'							=>	'शब्दों को सेंसर कर सकते हैं।',
+'Welcome 7'							=>	'उपयोगकर्ता समूहों और पदोन्नति को सेट कर सकते हैं।',
+'Welcome 8'							=>	'पुरानी पोस्टों को संक्षेपित कर सकते हैं।',
+'Welcome 9'							=>	'पोस्ट रिपोर्टों को संभाल सकते हैं।',
+'Alerts head'						=>	'अलर्ट',
+'Install file exists'				=>	'फ़ाइल install.php अभी भी मौजूद है, लेकिन इसे हटाना चाहिए। %s।',
+'Delete install file'				=>	'हटाएँ',
+'About head'						=>	'FluxBB के बारे में',
+'FluxBB version label'				=>	'FluxBB संस्करण',
+'Check for upgrade'					=>	'अपग्रेड की जाँच करें',
+'FluxBB version data'				=>	'v %s',
+'Server statistics label'			=>	'सर्वर सांख्यिकी',
+'View server statistics'			=>	'सर्वर सांख्यिकी देखें',
+'Support label'						=>	'समर्थन',
+'Forum label'						=>	'फ़ोरम',
+'IRC label'							=>	'IRC चैनल',
+
+// Language definitions used in admin_statistics.php
+'PHPinfo disabled message'			=>	'इस सर्वर पर PHP फ़ंक्शन phpinfo() अक्षम कर दिया गया है।',
+'Server statistics head'			=>	'सर्वर सांख्यिकी',
+'Server load label'					=>	'सर्वर लोड',
+'Server load data'					=>	'%s - %s उपयोगकर्ता(गण) ऑनलाइन',
+'Environment label'					=>	'पर्यावरण',
+'Environment data OS'				=>	'ऑपरेटिंग सिस्टम: %s',
+'Show info'							=>	'जानकारी दिखाएँ',
+'Environment data version'			=>	'PHP: %s - %s',
+'Environment data acc'				=>	'एक्सेलेरेटर: %s',
+'Database label'					=>	'डेटाबेस',
+'Database data rows'				=>	'पंक्तियाँ: %s',
+'Database data size'				=>	'आकार: %s',
+
+);
