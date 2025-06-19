@@ -88,6 +88,10 @@ $tpl_main = str_replace('<pun_content_direction>', $lang_common['lang_direction'
 // START SUBST - <pun_head>
 ob_start();
 
+if ($pun_user['style'] == 'BootstrapTheme') {
+    echo '<link rel="stylesheet" type="text/css" href="style/BootstrapTheme/bootstrap.min.css" />'."\n";
+}
+
 // Define $p if it's not set to avoid a PHP notice
 $p = isset($p) ? $p : null;
 
@@ -191,34 +195,34 @@ $tpl_main = str_replace('<pun_desc>', '<div id="brddesc">'.$pun_config['o_board_
 $links = array();
 
 // Index should always be displayed
-$links[] = '<li id="navindex"'.((PUN_ACTIVE_PAGE == 'index') ? ' class="isactive"' : '').'><a href="index.php">'.$lang_common['Index'].'</a></li>';
+$links[] = '<li class="nav-item"><a id="navindex" class="nav-link'.((PUN_ACTIVE_PAGE == 'index') ? ' active' : '').'" href="index.php">'.$lang_common['Index'].'</a></li>';
 
 if ($pun_user['g_read_board'] == '1' && $pun_user['g_view_users'] == '1')
-	$links[] = '<li id="navuserlist"'.((PUN_ACTIVE_PAGE == 'userlist') ? ' class="isactive"' : '').'><a href="userlist.php">'.$lang_common['User list'].'</a></li>';
+	$links[] = '<li class="nav-item"><a id="navuserlist" class="nav-link'.((PUN_ACTIVE_PAGE == 'userlist') ? ' active' : '').'" href="userlist.php">'.$lang_common['User list'].'</a></li>';
 
 if ($pun_config['o_rules'] == '1' && (!$pun_user['is_guest'] || $pun_user['g_read_board'] == '1' || $pun_config['o_regs_allow'] == '1'))
-	$links[] = '<li id="navrules"'.((PUN_ACTIVE_PAGE == 'rules') ? ' class="isactive"' : '').'><a href="misc.php?action=rules">'.$lang_common['Rules'].'</a></li>';
+	$links[] = '<li class="nav-item"><a id="navrules" class="nav-link'.((PUN_ACTIVE_PAGE == 'rules') ? ' active' : '').'" href="misc.php?action=rules">'.$lang_common['Rules'].'</a></li>';
 
 if ($pun_user['g_read_board'] == '1' && $pun_user['g_search'] == '1')
-	$links[] = '<li id="navsearch"'.((PUN_ACTIVE_PAGE == 'search') ? ' class="isactive"' : '').'><a href="search.php">'.$lang_common['Search'].'</a></li>';
+	$links[] = '<li class="nav-item"><a id="navsearch" class="nav-link'.((PUN_ACTIVE_PAGE == 'search') ? ' active' : '').'" href="search.php">'.$lang_common['Search'].'</a></li>';
 
 if ($pun_user['is_guest'])
 {
-	$links[] = '<li id="navregister"'.((PUN_ACTIVE_PAGE == 'register') ? ' class="isactive"' : '').'><a href="register.php">'.$lang_common['Register'].'</a></li>';
-	$links[] = '<li id="navlogin"'.((PUN_ACTIVE_PAGE == 'login') ? ' class="isactive"' : '').'><a href="login.php">'.$lang_common['Login'].'</a></li>';
+	$links[] = '<li class="nav-item"><a id="navregister" class="nav-link'.((PUN_ACTIVE_PAGE == 'register') ? ' active' : '').'" href="register.php">'.$lang_common['Register'].'</a></li>';
+	$links[] = '<li class="nav-item"><a id="navlogin" class="nav-link'.((PUN_ACTIVE_PAGE == 'login') ? ' active' : '').'" href="login.php">'.$lang_common['Login'].'</a></li>';
 }
 else
 {
-	$links[] = '<li id="navprofile"'.((PUN_ACTIVE_PAGE == 'profile') ? ' class="isactive"' : '').'><a href="profile.php?id='.$pun_user['id'].'">'.$lang_common['Profile'].'</a></li>';
+	$links[] = '<li class="nav-item"><a id="navprofile" class="nav-link'.((PUN_ACTIVE_PAGE == 'profile') ? ' active' : '').'" href="profile.php?id='.$pun_user['id'].'">'.$lang_common['Profile'].'</a></li>';
 // New PMS
 	if ($pun_config['o_pms_enabled'] == '1' && ($pun_user['g_pm'] == 1 || $pun_user['messages_new'] > 0))
-		$links[] = '<li id="navpmsnew"'.((PUN_ACTIVE_PAGE == 'pms_new' || $pun_user['messages_new'] > 0) ? ' class="isactive"' : '').'><a href="pmsnew.php">'.$lang_common['PM'].(($pun_user['messages_new'] > 0) ? ' (<span'.((empty($pun_config['o_pms_flasher']) || PUN_ACTIVE_PAGE == 'pms_new') ? '' : ' class="remflasher"' ).'>'.$pun_user['messages_new'].'</span>)' : '').'</a></li>';
+		$links[] = '<li class="nav-item"><a id="navpmsnew" class="nav-link'.((PUN_ACTIVE_PAGE == 'pms_new' || $pun_user['messages_new'] > 0) ? ' active' : '').'" href="pmsnew.php">'.$lang_common['PM'].(($pun_user['messages_new'] > 0) ? ' <span class="badge bg-danger'.((empty($pun_config['o_pms_flasher']) || PUN_ACTIVE_PAGE == 'pms_new') ? '' : ' remflasher' ).'">'.$pun_user['messages_new'].'</span>' : '').'</a></li>';
 // New PMS
 
 	if ($pun_user['is_admmod'])
-		$links[] = '<li id="navadmin"'.((PUN_ACTIVE_PAGE == 'admin') ? ' class="isactive"' : '').'><a href="admin_index.php">'.$lang_common['Admin'].'</a></li>';
+		$links[] = '<li class="nav-item"><a id="navadmin" class="nav-link'.((PUN_ACTIVE_PAGE == 'admin') ? ' active' : '').'" href="admin_index.php">'.$lang_common['Admin'].'</a></li>';
 
-	$links[] = '<li id="navlogout"><a href="login.php?action=out&amp;id='.$pun_user['id'].'&amp;csrf_hash='.csrf_hash('login.php').'">'.$lang_common['Logout'].'</a></li>';
+	$links[] = '<li class="nav-item"><a id="navlogout" class="nav-link" href="login.php?action=out&amp;id='.$pun_user['id'].'&amp;csrf_hash='.csrf_hash('login.php').'">'.$lang_common['Logout'].'</a></li>';
 }
 
 // Are there any additional navlinks we should insert into the array before imploding it?
@@ -229,13 +233,14 @@ if ($pun_user['g_read_board'] == '1' && $pun_config['o_additional_navlinks'] != 
 		// Insert any additional links into the $links array (at the correct index)
 		$num_links = count($extra_links[1]);
 		for ($i = 0; $i < $num_links; ++$i)
-			array_splice($links, $extra_links[1][$i], 0, array('<li id="navextra'.($i + 1).'">'.$extra_links[2][$i].'</li>'));
+			array_splice($links, $extra_links[1][$i], 0, array('<li class="nav-item">'.$extra_links[2][$i].'</li>'));
 	}
 }
 
-$tpl_temp = '<div id="brdmenu" class="inbox">'."\n\t\t\t".'<ul>'."\n\t\t\t\t".implode("\n\t\t\t\t", $links)."\n\t\t\t".'</ul>'."\n\t\t".'</div>';
-$tpl_temp = str_replace('<div id="brdmenu" class="inbox">'."\n\t\t\t".'<ul>', '<div id="brdmenu" class="inbox">'."\n\t\t\t".'<input type="checkbox" id="brdmenu-checkbox" style="display: none;" />'."\n\t\t\t".'<label for="brdmenu-checkbox" id="brdmenu-button"></label>'."\n\t\t\t".'<ul>', $tpl_temp); // Visman - Responsive Menu, only html+css
-$tpl_main = str_replace('<pun_navlinks>', $tpl_temp, $tpl_main);
+$nav_items_html = '<ul class="navbar-nav ms-auto mb-2 mb-lg-0">'."\n\t\t\t\t".implode("\n\t\t\t\t", $links)."\n\t\t\t".'</ul>';
+$tpl_main = str_replace('<pun_bootstrap_nav_items>', $nav_items_html, $tpl_main);
+// Make sure the original <pun_navlinks> is not processed if it was somehow still there or re-added
+$tpl_main = str_replace('<pun_navlinks>', '', $tpl_main);
 // END SUBST - <pun_navlinks>
 
 
